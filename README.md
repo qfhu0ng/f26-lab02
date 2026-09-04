@@ -35,3 +35,24 @@ green once you fix it.
 - Setup: `SETUP.md`
 
 See the Lab 2 handout on the course page for the three milestones you show a TA.
+
+## Milestone 3: Audit of the Generated Test Suite
+
+1. **No trailing-only free-time case (controllability gap).** The suite never supplies
+   a non-empty booking list where a booking starts at `DAY_START` and the last booking
+   ends before `DAY_END`. That input would make the trailing interval the only free
+   time and directly expose its omission.
+2. **No empty-bookings case (controllability gap).** The suite never supplies an empty
+   booking list, where the entire business day should be free.
+3. **The no-overlap test has a safety-only oracle (observability gap).**
+   `returnedSlotsNeverOverlapABooking` checks only that returned slots are valid, not
+   whether any free time was omitted.
+
+High coverage did not save the suite because coverage reports which existing lines and
+branches executed, not whether the assertions fully specify the result. In particular,
+there was no line for emitting the trailing gap to cover, and the test that exercised
+the relevant input did not observe the missing output.
+
+## AI Assistance
+
+Tool: OpenAI Codex desktop app. Model: `gpt-5.6-sol`.
